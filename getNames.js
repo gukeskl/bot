@@ -7,21 +7,22 @@ const ACTIVE_ELEMENTS_CLASSES = `.effective-startup-item`;
 const NO_INITIAL_LABEL_CLASSES = ".title-tip.title-tip-NONINITIAL";
 const INITIAL_LABEL_CLASSES = ".title-tip.title-tip-INITIAL";
 
-let html;
-
-const getHtml = (error, _, currentHtml) => {
-  if (error) {
-    console.log(error);
-  }
-
-  html = currentHtml;
-};
+const getHtml = () =>
+  new Promise((resolve, reject) => {
+    request({ uri: URL }, (error, _, html) => {
+      if (error) {
+        reject(error);
+      }
+      if (html) {
+        resolve(html);
+      }
+    });
+  });
 
 export const getNames = async () => {
-  request({ uri: URL }, getHtml);
+  const html = await getHtml().catch(console.log);
 
   if (!html) {
-    console.log("noHtml");
     return [];
   }
 

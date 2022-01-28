@@ -1,7 +1,10 @@
 import { client } from "./whatsapp.js";
 import { getNames } from "./getNames.js";
 
-const PHONE_NUMBERS = ["48696438619", "48694570298", "48576830768"];
+const PHONE_NUMBERS = [
+  "48696438619",
+  //"48694570298", "48576830768"
+];
 
 const informThatServerHasStarted = () => {
   PHONE_NUMBERS.forEach(async (number) => {
@@ -43,6 +46,7 @@ export const server = async () => {
   await client.initialize();
   let names = await getNames();
   informThatServerHasStarted();
+  informAboutNames(names);
 
   // server
   const interval = setInterval(async () => {
